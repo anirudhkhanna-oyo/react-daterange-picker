@@ -69,7 +69,8 @@ var CalendarDate = _react2['default'].createClass({
     dateRangesForDate: _react2['default'].PropTypes.func,
     onHighlightDate: _react2['default'].PropTypes.func,
     onUnHighlightDate: _react2['default'].PropTypes.func,
-    onSelectDate: _react2['default'].PropTypes.func
+    onSelectDate: _react2['default'].PropTypes.func,
+    oyoDeviceType: _react2['default'].PropTypes.string
   },
 
   getInitialState: function getInitialState() {
@@ -80,17 +81,20 @@ var CalendarDate = _react2['default'].createClass({
 
   mouseUp: function mouseUp() {
 
-    //this.props.onSelectDate(this.props.date);
+    if(this.props.oyoDeviceType !== 'mobile') {
+      this.props.onSelectDate(this.props.date);
 
-    //if (this.state.mouseDown) {
-    //  this.setState({
-    //    mouseDown: false
-    //  });
-    //}
-    document.removeEventListener('mouseup', this.mouseUp);
+      if (this.state.mouseDown) {
+       this.setState({
+         mouseDown: false
+       });
+      }
+    }
+    document.removeEventListener('mouseup', this.mouseUp);      
   },
 
   mouseDown: function mouseDown() {
+
     event.preventDefault();
 
     this.setState({
@@ -99,10 +103,34 @@ var CalendarDate = _react2['default'].createClass({
     document.addEventListener('mouseup', this.mouseUp);
   },
 
+  // /* original from src */
+  // touchEnd() {
+  //   event.preventDefault();
+  //   this.props.onHighlightDate(this.props.date);
+  //   this.props.onSelectDate(this.props.date);
+
+  //   if (this.isUnmounted) {
+  //     return;
+  //   }
+
+  //   if (this.state.mouseDown) {
+  //     this.setState({
+  //       mouseDown: false,
+  //     });
+  //   }
+  //   document.removeEventListener('touchend', this.touchEnd);
+  // },
+
+  // touchStart(event) {
+  //   event.preventDefault();
+  //   this.setState({
+  //     mouseDown: true,
+  //   });
+  //   document.addEventListener('touchend', this.touchEnd);
+  // },
+
   touchEnd: function touchEnd() {
-
     if(!dragging) {
-
       event.preventDefault();
 
       this.props.onHighlightDate(this.props.date);
@@ -128,20 +156,25 @@ var CalendarDate = _react2['default'].createClass({
   },
   mouseEnter: function mouseEnter() {
     this.props.onHighlightDate(this.props.date);
-    this.props.onSelectDate(this.props.date);
+
+    if(this.props.oyoDeviceType === 'mobile') {
+      this.props.onSelectDate(this.props.date);
+    }
   },
   touchMove: function touchMove() {
     dragging = true;
   },
   mouseLeave: function mouseLeave() {
-    //if (this.state.mouseDown) {
-    //  this.props.onSelectDate(this.props.date);
-    //
-    //  this.setState({
-    //    mouseDown: false
-    //  });
-    //}
-    //this.props.onUnHighlightDate(this.props.date);
+    if(this.props.oyoDeviceType !== 'mobile') {
+      if (this.state.mouseDown) {
+       this.props.onSelectDate(this.props.date);
+      
+       this.setState({
+         mouseDown: false
+       });
+      }
+      this.props.onUnHighlightDate(this.props.date);      
+    }
   },
 
   getBemModifiers: function getBemModifiers() {
