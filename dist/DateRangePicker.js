@@ -92,7 +92,8 @@ var DateRangePicker = _react2['default'].createClass({
     singleDateRange: _react2['default'].PropTypes.bool,
     showLegend: _react2['default'].PropTypes.bool,
     stateDefinitions: _react2['default'].PropTypes.object,
-    value: _utilsCustomPropTypes2['default'].momentOrMomentRange
+    value: _utilsCustomPropTypes2['default'].momentOrMomentRange,
+    oyoDeviceType: _react2['default'].PropTypes.string
   },
 
   getDefaultProps: function getDefaultProps() {
@@ -123,7 +124,8 @@ var DateRangePicker = _react2['default'].createClass({
       dateStates: [],
       showLegend: false,
       onSelect: noop,
-      paginationArrowComponent: _PaginationArrow2['default']
+      paginationArrowComponent: _PaginationArrow2['default'],
+      oyoDeviceType: 'desktop'
     };
   },
 
@@ -497,6 +499,7 @@ var DateRangePicker = _react2['default'].createClass({
   renderCalendar: function renderCalendar(index) {
     var _props2 = this.props;
     var bemBlock = _props2.bemBlock;
+    var oyoDeviceType = _props2.oyoDeviceType;
     var bemNamespace = _props2.bemNamespace;
     var firstOfWeek = _props2.firstOfWeek;
     var numberOfCalendars = _props2.numberOfCalendars;
@@ -562,7 +565,8 @@ var DateRangePicker = _react2['default'].createClass({
       onHighlightDate: this.onHighlightDate,
       onUnHighlightDate: this.onUnHighlightDate,
       dateRangesForDate: this.dateRangesForDate,
-      dateComponent: _calendarCalendarDate2['default']
+      dateComponent: _calendarCalendarDate2['default'],
+      oyoDeviceType: oyoDeviceType
     };
     return _react2['default'].createElement(_calendarCalendarMonth2['default'], props);
   },
